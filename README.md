@@ -24,9 +24,7 @@ No internet. No cloud. No tracking. Your conversations stay yours.
 
 ---
 If this project helped you, please ⭐️ star it to help others find it 
->  **If you like OfflineLLM, you’ll ❤️ [Box](https://github.com/jegly/Box)** — a powerful on‑device AI experience with chat, voice, vision, and image generation.
-
-
+>  **If you like OfflineLLM, you’ll ❤️ [Box](https://github.com/jegly/Box)** — a powerful full stack on‑device AI.
 # Access Your Data Anytime, Anywhere
 
 **OfflineLLM** is designed with users who need reliable, offline access to their AI assistant, especially in scenarios where internet access is limited or unavailable. Whether you're off-grid, in a remote location, or simply need a way to interact with your data without relying on the cloud, **OfflineLLM** provides a solution that works entirely offline.
