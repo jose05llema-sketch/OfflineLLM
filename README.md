@@ -8,19 +8,26 @@ The only Android LLM app that literally cannot phone home.
 All LLM inference runs entirely on-device via llama.cpp.
 No internet. No cloud. No tracking. Your conversations stay yours.
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.3-b39ddb.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
-[![Android](https://img.shields.io/badge/Android-14%2B-ce93d8.svg?logo=android&logoColor=white)](https://developer.android.com)
-[![Version](https://img.shields.io/badge/Version-5.0.1-BD93F9.svg)](https://github.com/jegly/OfflineLLM/releases)
-[![License](https://img.shields.io/badge/License-Apache%202.0-b39ddb.svg)](LICENSE)
-[![llama.cpp](https://img.shields.io/badge/llama.cpp-GGUF-c084fc.svg)](https://github.com/ggerganov/llama.cpp)
-[![Offline](https://img.shields.io/badge/Network-Zero%20Permissions-f48fb1.svg)]()
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-FF79C6.svg?logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
-![GitHub all releases](https://img.shields.io/github/downloads/jegly/OfflineLLM/total?color=b39ddb)
-[![HuggingFace](https://img.shields.io/badge/🤗%20HuggingFace-Releases-ce93d8.svg)](https://huggingface.co/jegly)
-</div>
-<a href="https://www.buymeacoffee.com/jegly"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.3-111111.svg?logo=kotlin&logoColor=white&color=39ff14)](https://kotlinlang.org)
+[![Android](https://img.shields.io/badge/Android-14%2B-111111.svg?logo=android&logoColor=white&color=39ff14)](https://developer.android.com)
+[![Version](https://img.shields.io/badge/Version-5.0.1-111111.svg?color=39ff14)](https://github.com/jegly/OfflineLLM/releases)
+[![License](https://img.shields.io/badge/License-Apache%202.0-111111.svg?color=39ff14)](LICENSE)
+[![llama.cpp](https://img.shields.io/badge/llama.cpp-GGUF-111111.svg?color=39ff14)](https://github.com/ggerganov/llama.cpp)
+[![Offline](https://img.shields.io/badge/Network-Zero%20Permissions-111111.svg?color=39ff14)]()
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-111111.svg?logo=jetpackcompose&logoColor=white&color=39ff14)](https://developer.android.com/jetpack/compose)
+![GitHub all releases](https://img.shields.io/github/downloads/jegly/OfflineLLM/total?color=39ff14)
+[![HuggingFace](https://img.shields.io/badge/🤗%20HuggingFace-Releases-111111.svg?color=39ff14)](https://huggingface.co/jegly)
 
-[![Download APK](https://img.shields.io/badge/Download-APK-b39ddb?style=for-the-badge&logo=android)](https://github.com/jegly/OfflineLLM/releases/latest)
+[![Download APK](https://img.shields.io/badge/Download_APK-111111?style=for-the-badge&logo=android&logoColor=white&color=39ff14)](https://github.com/jegly/OfflineLLM/releases/latest)
+
+<a href="https://www.buymeacoffee.com/jegly">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+       alt="Buy Me A Coffee" 
+       height="41" 
+       width="174" 
+       style="filter: hue-rotate(80deg) saturate(1.8);">
+</a>
+
 
 ---
 If this project helped you, please ⭐️ star it to help others find it 
