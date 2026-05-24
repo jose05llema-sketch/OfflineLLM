@@ -59,15 +59,15 @@ Whether you’re an adventurer, living in an area with limited internet access, 
 ## Screenshots
 
 <p align="center">
-<img src="Screenshots/Welcome_to_OfflineLLM.jpg" width="300" />
-<img src="Screenshots/Choose_assistant.jpg" width="300" />
-<img src="Screenshots/Conversation_preview.jpg" width="300" />
-<img src="Screenshots/Settings_preview.jpg" width="300" />
+<img src="Screenshots/Welcome_to_OfflineLLM.jpg" width="200" />
+<img src="Screenshots/Choose_assistant.jpg" width="200" />
+<img src="Screenshots/Conversation_preview.jpg" width="200" />
+<img src="Screenshots/Settings_preview.jpg" width="200" />
 </p>
 
 <p align="center">
-<img src="Screenshots/Settings_preview_2.jpg" width="300" />
-<img src="Screenshots/Application_about_section.jpg" width="300" />
+<img src="Screenshots/Settings_preview_2.jpg" width="200" />
+<img src="Screenshots/Application_about_section.jpg" width="200" />
 </p>
 
 ---
