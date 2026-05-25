@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
@@ -69,6 +70,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jegly.offlineLLM.ai.SystemPrompts
+import com.jegly.offlineLLM.ui.theme.CatppuccinMocha
+import com.jegly.offlineLLM.ui.theme.DraculaColors
 import com.jegly.offlineLLM.ui.theme.ThemeMode
 import com.jegly.offlineLLM.ui.theme.accentColors
 import com.jegly.offlineLLM.utils.FileUtils
@@ -148,19 +151,73 @@ fun SettingsScreen(
 
             // === ACCENT COLOUR ===
             SectionHeader("Accent Colour")
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                accentColors.forEach { accent ->
-                    Box(
+            when (uiState.themeMode) {
+                ThemeMode.CATPPUCCIN.name -> {
+                    val catScrollState = rememberScrollState()
+                    Row(
                         modifier = Modifier
-                            .size(44.dp)
-                            .clip(CircleShape)
-                            .background(accent.seed)
-                            .then(if (uiState.accentColor == accent.key) Modifier.border(3.dp, MaterialTheme.colorScheme.onSurface, CircleShape) else Modifier)
-                            .clickable { viewModel.setAccentColor(accent.key) },
-                        contentAlignment = Alignment.Center,
+                            .fillMaxWidth()
+                            .horizontalScroll(catScrollState)
+                            .padding(vertical = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
-                        if (uiState.accentColor == accent.key) {
-                            Icon(Icons.Filled.Check, contentDescription = "Selected", tint = Color.White, modifier = Modifier.size(20.dp))
+                        CatppuccinMocha.accents.forEach { (key, pair) ->
+                            val isSelected = uiState.catppuccinAccent == key
+                            Box(
+                                modifier = Modifier
+                                    .size(44.dp)
+                                    .clip(CircleShape)
+                                    .background(pair.second)
+                                    .then(if (isSelected) Modifier.border(3.dp, MaterialTheme.colorScheme.onSurface, CircleShape) else Modifier)
+                                    .clickable { viewModel.setCatppuccinAccent(key) },
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                if (isSelected) {
+                                    Icon(Icons.Filled.Check, contentDescription = "Selected", tint = Color.Black.copy(alpha = 0.6f), modifier = Modifier.size(20.dp))
+                                }
+                            }
+                        }
+                    }
+                }
+                ThemeMode.DRACULA.name -> {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                    ) {
+                        DraculaColors.accents.forEach { (key, pair) ->
+                            val isSelected = uiState.draculaAccent == key
+                            Box(
+                                modifier = Modifier
+                                    .size(44.dp)
+                                    .clip(CircleShape)
+                                    .background(pair.second)
+                                    .then(if (isSelected) Modifier.border(3.dp, MaterialTheme.colorScheme.onSurface, CircleShape) else Modifier)
+                                    .clickable { viewModel.setDraculaAccent(key) },
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                if (isSelected) {
+                                    Icon(Icons.Filled.Check, contentDescription = "Selected", tint = Color.Black.copy(alpha = 0.6f), modifier = Modifier.size(20.dp))
+                                }
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                        accentColors.forEach { accent ->
+                            Box(
+                                modifier = Modifier
+                                    .size(44.dp)
+                                    .clip(CircleShape)
+                                    .background(accent.seed)
+                                    .then(if (uiState.accentColor == accent.key) Modifier.border(3.dp, MaterialTheme.colorScheme.onSurface, CircleShape) else Modifier)
+                                    .clickable { viewModel.setAccentColor(accent.key) },
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                if (uiState.accentColor == accent.key) {
+                                    Icon(Icons.Filled.Check, contentDescription = "Selected", tint = Color.White, modifier = Modifier.size(20.dp))
+                                }
+                            }
                         }
                     }
                 }

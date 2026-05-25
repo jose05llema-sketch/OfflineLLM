@@ -54,6 +54,9 @@ class SettingsRepository @Inject constructor(
         const val KEY_MATH_LATEX_HINTS = "math_latex_hints"
         const val KEY_TRANSLATOR_FROM = "translator_from"
         const val KEY_TRANSLATOR_TO = "translator_to"
+        const val KEY_CATPPUCCIN_ACCENT = "catppuccin_accent"
+        const val KEY_DRACULA_ACCENT = "dracula_accent"
+        const val KEY_GPU_LAYERS = "gpu_layers"
         const val DEFAULT_TEMPERATURE = 0.7f
         const val DEFAULT_MAX_TOKENS = 2048
         const val DEFAULT_CONTEXT_SIZE = 4096
@@ -63,7 +66,7 @@ class SettingsRepository @Inject constructor(
         const val DEFAULT_REPEAT_PENALTY = 1.1f
         val DEFAULT_NUM_THREADS = (Runtime.getRuntime().availableProcessors() / 2).coerceIn(4, 8)
 
-        const val DEFAULT_SCREENSHOT_PROTECTION = true
+        const val DEFAULT_SCREENSHOT_PROTECTION = false
         const val DEFAULT_TAPJACKING_PROTECTION = true
         const val DEFAULT_SENSITIVE_DATA_ACCESSIBILITY = true
         const val DEFAULT_AUTO_LOCK_ON_BACKGROUND = false
@@ -194,4 +197,16 @@ class SettingsRepository @Inject constructor(
     var translatorTo: String
         get() = prefs.getString(KEY_TRANSLATOR_TO, "es") ?: "es"
         set(value) = prefs.edit().putString(KEY_TRANSLATOR_TO, value).apply()
+
+    var catppuccinAccent: String
+        get() = prefs.getString(KEY_CATPPUCCIN_ACCENT, "mauve") ?: "mauve"
+        set(value) = prefs.edit().putString(KEY_CATPPUCCIN_ACCENT, value).apply()
+
+    var draculaAccent: String
+        get() = prefs.getString(KEY_DRACULA_ACCENT, "purple") ?: "purple"
+        set(value) = prefs.edit().putString(KEY_DRACULA_ACCENT, value).apply()
+
+    var gpuLayers: Int
+        get() = prefs.getInt(KEY_GPU_LAYERS, 0)
+        set(value) = prefs.edit().putInt(KEY_GPU_LAYERS, value).apply()
 }

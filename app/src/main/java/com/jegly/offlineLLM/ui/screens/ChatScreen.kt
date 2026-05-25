@@ -32,6 +32,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -231,6 +232,47 @@ fun ChatScreen(
                     .padding(padding)
                     .then(sensitiveDataModifier)
             ) {
+                // Context-usage bar — scales to whatever contextMax is set in Settings
+                if (uiState.modelState is ModelManager.ModelState.Ready && uiState.contextMax > 0) {
+                    val fraction = (uiState.contextUsed.toFloat() / uiState.contextMax.toFloat())
+                        .coerceIn(0f, 1f)
+                    val barColor = when {
+                        fraction > 0.85f -> MaterialTheme.colorScheme.error
+                        fraction > 0.65f -> MaterialTheme.colorScheme.tertiary
+                        else -> MaterialTheme.colorScheme.primary
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 6.dp),
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(
+                                text = "Context",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            Text(
+                                text = "${uiState.contextUsed} / ${uiState.contextMax}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(2.dp))
+                        LinearProgressIndicator(
+                            progress = { fraction },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(3.dp),
+                            color = barColor,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                        )
+                    }
+                }
+
                 // Search bar
                 if (showSearch) {
                     OutlinedTextField(

@@ -1,3 +1,6 @@
+# Tamper / signature verification — must not be renamed or removed
+-keep class com.jegly.offlineLLM.utils.SignatureVerifier { *; }
+
 # Keep JNI methods
 -keepclasseswithmembernames class * {
     native <methods>;

@@ -35,7 +35,7 @@ data class SettingsUiState(
     val repeatPenalty: Float = 1.1f,
     val biometricLock: Boolean = false,
     val autoLockOnBackground: Boolean = false,
-    val screenshotProtectionEnabled: Boolean = true,
+    val screenshotProtectionEnabled: Boolean = false,
     val tapjackingProtectionEnabled: Boolean = true,
     val sensitiveDataAccessibilityEnabled: Boolean = true,
     val secureStorageBackend: String = "Unknown",
@@ -47,6 +47,9 @@ data class SettingsUiState(
     val mathLatexHints: Boolean = false,
     val translatorFrom: String = "en",
     val translatorTo: String = "es",
+    val catppuccinAccent: String = "mauve",
+    val draculaAccent: String = "purple",
+    val gpuLayers: Int = 0,
     val isImportingModel: Boolean = false,
 )
 
@@ -98,6 +101,9 @@ class SettingsViewModel @Inject constructor(
             mathLatexHints = settingsRepository.mathLatexHints,
             translatorFrom = settingsRepository.translatorFrom,
             translatorTo = settingsRepository.translatorTo,
+            catppuccinAccent = settingsRepository.catppuccinAccent,
+            draculaAccent = settingsRepository.draculaAccent,
+            gpuLayers = settingsRepository.gpuLayers,
         )
     }
 
@@ -199,6 +205,21 @@ class SettingsViewModel @Inject constructor(
     fun setTranslatorTo(code: String) {
         settingsRepository.translatorTo = code
         _uiState.update { it.copy(translatorTo = code) }
+    }
+
+    fun setCatppuccinAccent(key: String) {
+        settingsRepository.catppuccinAccent = key
+        _uiState.update { it.copy(catppuccinAccent = key) }
+    }
+
+    fun setDraculaAccent(key: String) {
+        settingsRepository.draculaAccent = key
+        _uiState.update { it.copy(draculaAccent = key) }
+    }
+
+    fun setGpuLayers(value: Int) {
+        settingsRepository.gpuLayers = value
+        _uiState.update { it.copy(gpuLayers = value) }
     }
 
     fun selectModel(modelId: Long) {

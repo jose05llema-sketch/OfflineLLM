@@ -14,9 +14,12 @@ android {
         applicationId = "com.jegly.offlineLLM"
         minSdk = 30
         targetSdk = 37
-        versionCode = 6
-        versionName = "5.0.1"
+        versionCode = 7
+        versionName = "5.0.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters += "arm64-v8a"
+        }
     }
 
     buildTypes {
@@ -36,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources {

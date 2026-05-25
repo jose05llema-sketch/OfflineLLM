@@ -79,6 +79,7 @@ class SmolLM {
         val numThreads: Int = 4,
         val useMmap: Boolean = true,
         val useMlock: Boolean = false,
+        val nGpuLayers: Int = 0,
     )
 
     object DefaultParams {
@@ -106,7 +107,7 @@ class SmolLM {
                 params.numThreads,
                 params.useMmap,
                 params.useMlock,
-                0,
+                params.nGpuLayers,
             )
         }
 

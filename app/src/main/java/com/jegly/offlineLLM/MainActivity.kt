@@ -17,12 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
+import com.jegly.offlineLLM.BuildConfig
 import com.jegly.offlineLLM.data.repository.SettingsRepository
 import com.jegly.offlineLLM.ui.navigation.NavGraph
 import com.jegly.offlineLLM.ui.navigation.Routes
 import com.jegly.offlineLLM.ui.theme.OfflineLLMTheme
 import com.jegly.offlineLLM.ui.theme.ThemeMode
 import com.jegly.offlineLLM.utils.BiometricHelper
+import com.jegly.offlineLLM.utils.SignatureVerifier
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -39,6 +41,16 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        if (!BuildConfig.DEBUG && !SignatureVerifier(this).isSignedByTrustedCert()) {
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Unverified App")
+                .setMessage("This app has been modified or re-signed and cannot run to protect your data.")
+                .setCancelable(false)
+                .setPositiveButton("Exit") { _, _ -> finish() }
+                .show()
+            return
+        }
+
         authRequired = settingsRepository.biometricLock
         applyWindowSecurityToggles()
 
@@ -53,6 +65,8 @@ class MainActivity : FragmentActivity() {
             catch (_: Exception) { ThemeMode.SYSTEM }
         )
         val accentColorState = mutableStateOf(settingsRepository.accentColor)
+        val catppuccinAccentState = mutableStateOf(settingsRepository.catppuccinAccent)
+        val draculaAccentState = mutableStateOf(settingsRepository.draculaAccent)
 
         setContent {
             val themeMode by themeModeState
@@ -74,6 +88,14 @@ class MainActivity : FragmentActivity() {
                         if (newAccent != accentColorState.value) {
                             accentColorState.value = newAccent
                         }
+                        val newCatppuccin = settingsRepository.catppuccinAccent
+                        if (newCatppuccin != catppuccinAccentState.value) {
+                            catppuccinAccentState.value = newCatppuccin
+                        }
+                        val newDracula = settingsRepository.draculaAccent
+                        if (newDracula != draculaAccentState.value) {
+                            draculaAccentState.value = newDracula
+                        }
 
                         // Keep security flags in sync with settings toggles.
                         applyWindowSecurityToggles()
@@ -87,7 +109,12 @@ class MainActivity : FragmentActivity() {
             }
 
 
-            OfflineLLMTheme(themeMode = themeMode, accentColorKey = accentColorState.value) {
+            OfflineLLMTheme(
+                themeMode = themeMode,
+                accentColorKey = accentColorState.value,
+                catppuccinAccentKey = catppuccinAccentState.value,
+                draculaAccentKey = draculaAccentState.value,
+            ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,

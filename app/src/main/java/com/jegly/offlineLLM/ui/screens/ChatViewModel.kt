@@ -43,6 +43,8 @@ data class ChatUiState(
     val errorMessage: String? = null,
     val speakingMessageId: String? = null,
     val sensitiveDataAccessibilityEnabled: Boolean = false,
+    val contextUsed: Int = 0,
+    val contextMax: Int = 4096,
 )
 
 @HiltViewModel
@@ -70,15 +72,35 @@ class ChatViewModel @Inject constructor(
             }
         }
 
-        // Poll settings so the accessibility marking can toggle without restarting the Activity.
+        // Poll settings so the accessibility marking + context bar max can toggle without restarting the Activity.
         viewModelScope.launch {
             while (true) {
                 _uiState.update {
                     it.copy(
-                        sensitiveDataAccessibilityEnabled = settingsRepository.sensitiveDataAccessibilityEnabled
+                        sensitiveDataAccessibilityEnabled = settingsRepository.sensitiveDataAccessibilityEnabled,
+                        contextMax = settingsRepository.contextSize,
                     )
                 }
                 delay(500)
+            }
+        }
+
+        // Watch context size — reload model when user changes it in Settings.
+        viewModelScope.launch {
+            var lastContextSize = settingsRepository.contextSize
+            while (true) {
+                delay(1000)
+                val current = settingsRepository.contextSize
+                if (current != lastContextSize) {
+                    lastContextSize = current
+                    val conv = _uiState.value.currentConversation
+                    val ready = _uiState.value.modelState is ModelManager.ModelState.Ready
+                    if (conv != null && ready && !_uiState.value.isGenerating) {
+                        modelManager.unloadModel()
+            _uiState.update { it.copy(contextUsed = 0) }
+                        loadModelForConversation(conv)
+                    }
+                }
             }
         }
     }
@@ -219,6 +241,8 @@ class ChatViewModel @Inject constructor(
                                 isGenerating = false,
                                 partialResponse = "",
                                 tokensPerSecond = result.tokensPerSecond,
+                                contextUsed = result.contextLengthUsed,
+                                contextMax = settingsRepository.contextSize,
                             )
                         }
                     }
@@ -266,6 +290,7 @@ class ChatViewModel @Inject constructor(
             _uiState.update { it.copy(isGenerating = false, partialResponse = "") }
 
             modelManager.unloadModel()
+            _uiState.update { it.copy(contextUsed = 0) }
 
             val conversation = chatRepository.createConversation(
                 title = "Chat ${chatRepository.getConversationCount() + 1}"
@@ -296,6 +321,7 @@ class ChatViewModel @Inject constructor(
             _uiState.update { it.copy(isGenerating = false, partialResponse = "") }
 
             modelManager.unloadModel()
+            _uiState.update { it.copy(contextUsed = 0) }
             _uiState.update {
                 it.copy(
                     currentConversation = conversation,

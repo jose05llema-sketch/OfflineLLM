@@ -138,6 +138,7 @@ class ModelManager(
             repeatPenalty = settingsRepository.repeatPenalty,
             contextSize = settingsRepository.contextSize.toLong(),
             numThreads = settingsRepository.numThreads,
+            nGpuLayers = settingsRepository.gpuLayers,
         )
 
         inferenceEngine.loadModel(

@@ -17,6 +17,8 @@ enum class ThemeMode(val label: String) {
     LIGHT("Light"),
     DARK("Dark"),
     AMOLED("AMOLED Black"),
+    CATPPUCCIN("Catppuccin Mocha"),
+    DRACULA("Dracula"),
 }
 
 data class AccentColor(
@@ -64,18 +66,21 @@ private fun buildColorScheme(seed: Color, isDark: Boolean): ColorScheme {
 fun OfflineLLMTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
     accentColorKey: String = "dynamic",
+    catppuccinAccentKey: String = "mauve",
+    draculaAccentKey: String = "purple",
     content: @Composable () -> Unit
 ) {
     val isDark = when (themeMode) {
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
         ThemeMode.LIGHT -> false
-        ThemeMode.DARK -> true
-        ThemeMode.AMOLED -> true
+        ThemeMode.DARK, ThemeMode.AMOLED, ThemeMode.CATPPUCCIN, ThemeMode.DRACULA -> true
     }
 
     val accent = accentColors.find { it.key == accentColorKey }
 
     val colorScheme = when {
+        themeMode == ThemeMode.CATPPUCCIN -> catppuccinColorScheme(catppuccinAccentKey)
+        themeMode == ThemeMode.DRACULA -> draculaColorScheme(draculaAccentKey)
         // AMOLED with custom accent
         themeMode == ThemeMode.AMOLED && accent != null && accent.key != "dynamic" -> {
             buildColorScheme(accent.seed, true).copy(
