@@ -8,7 +8,7 @@ The only Android LLM app that literally cannot phone home. All LLM inference run
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3-111111.svg?logo=kotlin&logoColor=white&color=bfff00)](https://kotlinlang.org)
 [![Android](https://img.shields.io/badge/Android-14%2B-111111.svg?logo=android&logoColor=white&color=bfff00)](https://developer.android.com)
-[![Version](https://img.shields.io/badge/Version-5.0.1-111111.svg?color=bfff00)](https://github.com/jegly/OfflineLLM/releases)
+[![Version](https://img.shields.io/badge/Version-5.0.2-111111.svg?color=bfff00)](https://github.com/jegly/OfflineLLM/releases)
 [![License](https://img.shields.io/badge/License-Apache%202.0-111111.svg?color=bfff00)](LICENSE)
 [![llama.cpp](https://img.shields.io/badge/llama.cpp-GGUF-111111.svg?color=bfff00)](https://github.com/ggerganov/llama.cpp)
 [![Offline](https://img.shields.io/badge/Network-Zero%20Permissions-111111.svg?color=bfff00)]()
@@ -34,15 +34,15 @@ If this project helped you, please ⭐️ star it. **Also try [Box](https://gith
 <summary><b>📱 Screenshots</b></summary>
 
 <p align="center">
-<img src="Screenshots/Welcome_to_OfflineLLM.jpg" width="400" />
-<img src="Screenshots/Choose_assistant.jpg" width="400" />
-<img src="Screenshots/Conversation_preview.jpg" width="400" />
-<img src="Screenshots/Settings_preview.jpg" width="400" />
+<img src="Screenshots/01_Welcome.png" width="270" />
+<img src="Screenshots/03_Choose_Assistant.png" width="270" />
+<img src="Screenshots/05_Settings_Appearance_Themes.png" width="270" />
 </p>
 
 <p align="center">
-<img src="Screenshots/Settings_preview_2.jpg" width="400" />
-<img src="Screenshots/Application_about_section.jpg" width="400" />
+<img src="Screenshots/06_Settings_Sampling.png" width="270" />
+<img src="Screenshots/07_Settings_Security.png" width="270" />
+<img src="Screenshots/08_About.png" width="270" />
 </p>
 
 </details>
@@ -50,8 +50,8 @@ If this project helped you, please ⭐️ star it. **Also try [Box](https://gith
 ## Features
 
 - **100% Offline** — no INTERNET permission in the manifest, cannot phone home
-- **On-Device Inference** — GGUF models via llama.cpp with ARM NEON/SVE/i8mm
-- **Streaming Responses** — ~25 tok/s on budget devices, 40–60+ on flagships
+- **On-Device Inference** — GGUF models via llama.cpp with ARM NEON/SVE/i8mm and llamafile SIMD GEMM kernels
+- **Streaming Responses** — token-by-token output as the model generates
 - **Import Any Model** — bring your own GGUF at runtime via file picker
 - **Multiple Conversations** — auto-titled, renameable, searchable
 - **Translator** — 75+ languages
@@ -59,41 +59,31 @@ If this project helped you, please ⭐️ star it. **Also try [Box](https://gith
 - **System Prompts** — General, Coder, Creative Writer, Tutor, Translator
 - **Markdown + TTS** — formatted responses, read aloud via system TTS
 - **Thinking Tag Stripping** — hides `<think>` blocks from reasoning models
-- **Theming** — System / Light / Dark / AMOLED + 9 accent colours
+- **Theming** — System / Light / Dark / AMOLED + Catppuccin Mocha + Dracula, with per-theme accent pickers
+- **Context Bar** — live token-usage indicator on the chat screen
+- **Tamper Detection** — release builds verify the APK signing certificate at startup and refuse to run if repackaged
 - **Security** — encrypted settings, optional biometric lock, secure file deletion
 - **Chat Backup** — export/import as JSON
 - **Gemma 4** — automatic prompt template detection
 
 ## Install
 
-v5.0.1 ships in three flavours:
+v5.0.2 ships as a single **Vanilla** APK — bring your own GGUF model and import it from Settings.
 
-| Release | Bundled Model | APK Size | Best For |
-|---|---|---|---|
-| **Vanilla** | None (bring your own) | Small | Users with their own GGUF model |
-| **Qwen3.5 0.8B** | Qwen3.5 0.8B Q4_K_M | ~600 MB | Everyday use, 4–6 GB RAM |
-| **Gemma4-E2B** | Gemma4-E2B-it Q4_K_M | ~1.4 GB | Best quality, 6–8 GB RAM — [HuggingFace download](https://huggingface.co/jegly/OfflineLLM_V5.0.1_Signed_Release_Gemma4_E2B_IT.apk/blob/main/OfflineLLM_V5.0.1_Signed_Release_Gemma4_E2B_IT.apk) |
-
-> Gemma4-E2B is hosted on HuggingFace due to GitHub's 2 GB file limit. All releases are identical in features.
+> **Targets arm64-v8a only** (drops 32-bit ARM and x86 emulator support). Vast majority of Android devices since 2019 are arm64.
 
 1. Download from [Releases](https://github.com/jegly/OfflineLLM/releases)
 2. **Settings → Apps → Install unknown apps** → allow your file manager
 3. Open the APK, tap Install, complete onboarding
+4. Settings → Model → **Import GGUF Model** (download one from [HuggingFace](https://huggingface.co))
 
 Or via ADB:
 
 ```bash
-adb install OfflineLLM_V5.0.1.apk
+adb install OfflineLLM_V5.0.2_Signed_Release_Vanilla.apk
 ```
 
-<details>
-<summary><b>Checksums</b></summary>
-
-- **Vanilla** — SHA-256 `3c6c89e0c4aa95fd1acd68070a295a9011faa235c786ad2f4648149a26f67305`
-- **Qwen3.5 Release** — SHA-256 `839a795da2b1c85d27f3f29fbb1189d6935227ad905ad60d689ff6e5dfcf3205`
-- **Gemma4 Release** — Xet hash `69945c715660e1dcb098ee4db0157d783038db819d50043859a9fe099b75b1f7`
-
-</details>
+**Tamper detection:** release builds verify the APK signing certificate at launch. The app exits with an "Unverified App" dialog if anyone has re-signed the APK with a different key.
 
 ## Recommended Models
 
@@ -106,14 +96,6 @@ adb install OfflineLLM_V5.0.1.apk
 | **Qwen3.5 4B Q4_K_M** | ~2.5 GB | Flagship (12 GB+ RAM) |
 
 Search the model name + "GGUF" on [HuggingFace](https://huggingface.co). `Q4_K_M` is the best quality/speed balance.
-
-## Performance
-
-| Device Tier | RAM | Expected Speed |
-|---|---|---|
-| Budget (ZTE, etc.) | 4 GB | ~25 tok/s with 270M model |
-| Mid-range (Pixel 7) | 6–8 GB | 30–50 tok/s with 1B model |
-| Flagship (Pixel 10 Pro) | 12–16 GB | 40–60+ tok/s with 4B model |
 
 ## Build from Source
 
