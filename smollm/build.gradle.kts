@@ -36,8 +36,9 @@ android {
                 arguments += "-DBUILD_SHARED_LIBS=ON"
                 arguments += "-DLLAMA_BUILD_COMMON=ON"
                 arguments += "-DLLAMA_CURL=OFF"
-                if (sdkDir.isNotEmpty()) {
-                    arguments += "-DCMAKE_MAKE_PROGRAM=$sdkDir/cmake/3.22.1/bin/ninja"
+                val ninja = file("$sdkDir/cmake/3.22.1/bin/ninja")
+                if (sdkDir.isNotEmpty() && ninja.exists()) {
+                    arguments += "-DCMAKE_MAKE_PROGRAM=${ninja.absolutePath}"
                 }
             }
         }
